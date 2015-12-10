@@ -30,33 +30,33 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
-        jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jSlider1 = new javax.swing.JSlider();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jButton2 = new javax.swing.JButton();
+        jPanelSearch = new javax.swing.JPanel();
+        jTextFieldSearch = new javax.swing.JTextField();
+        jButtonSearch = new javax.swing.JButton();
+        jPanelMain = new javax.swing.JPanel();
+        jScrollPanePlaylist = new javax.swing.JScrollPane();
+        jListPlaylist = new javax.swing.JList<>();
+        jSliderVolume = new javax.swing.JSlider();
+        jButtonPrevious = new javax.swing.JButton();
+        jButtonPlay = new javax.swing.JButton();
+        jButtonPause = new javax.swing.JButton();
+        jButtonStop = new javax.swing.JButton();
+        jButtonNext = new javax.swing.JButton();
+        jToggleButtonMute = new javax.swing.JToggleButton();
+        jButtonAdd = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jButtonSelectNext = new javax.swing.JButton();
+        jButtonSelectPrevious = new javax.swing.JButton();
+        jMenuBar = new javax.swing.JMenuBar();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuItemOpen = new javax.swing.JMenuItem();
+        jMenuItemSave = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemClose = new javax.swing.JMenuItem();
+        jMenuSettings = new javax.swing.JMenu();
+        jMenuSkin = new javax.swing.JMenu();
+        jMenuItemStandart = new javax.swing.JMenuItem();
+        jMenuItemClassic = new javax.swing.JMenuItem();
 
         FormListener formListener = new FormListener();
 
@@ -83,187 +83,184 @@ public class PlayerJFrame extends javax.swing.JFrame {
         setIconImages(null);
         setResizable(false);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_search_flies.png"))); // NOI18N
-        jButton1.setText("Search");
-        jButton1.addActionListener(formListener);
+        jTextFieldSearch.setForeground(new java.awt.Color(204, 204, 204));
+        jTextFieldSearch.setText("artist, song");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jButtonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_search_flies.png"))); // NOI18N
+        jButtonSearch.setText("Search");
+        jButtonSearch.addActionListener(formListener);
+
+        javax.swing.GroupLayout jPanelSearchLayout = new javax.swing.GroupLayout(jPanelSearch);
+        jPanelSearch.setLayout(jPanelSearchLayout);
+        jPanelSearchLayout.setHorizontalGroup(
+            jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1)
+        jPanelSearchLayout.setVerticalGroup(
+            jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSearchLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSearch))
+                .addContainerGap())
         );
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jListPlaylist.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPanePlaylist.setViewportView(jListPlaylist);
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_rwnd.png"))); // NOI18N
+        jButtonPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_rwnd.png"))); // NOI18N
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_play.png"))); // NOI18N
-        jButton6.addActionListener(formListener);
+        jButtonPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_play.png"))); // NOI18N
+        jButtonPlay.addActionListener(formListener);
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_pause.png"))); // NOI18N
-        jButton7.addActionListener(formListener);
+        jButtonPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_pause.png"))); // NOI18N
+        jButtonPause.addActionListener(formListener);
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_stop.png"))); // NOI18N
+        jButtonStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_stop.png"))); // NOI18N
 
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_fwrd.png"))); // NOI18N
+        jButtonNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_fwrd.png"))); // NOI18N
 
-        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_loud.png"))); // NOI18N
-        jToggleButton1.setToolTipText("");
-        jToggleButton1.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_mute.png"))); // NOI18N
+        jToggleButtonMute.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_loud.png"))); // NOI18N
+        jToggleButtonMute.setToolTipText("");
+        jToggleButtonMute.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_mute.png"))); // NOI18N
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_plus.png"))); // NOI18N
+        jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_plus.png"))); // NOI18N
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_minus.png"))); // NOI18N
+        jButton3.addActionListener(formListener);
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_arrow_down.png"))); // NOI18N
+        jButtonSelectNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_arrow_down.png"))); // NOI18N
+        jButtonSelectNext.addActionListener(formListener);
 
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_arrow_up.png"))); // NOI18N
+        jButtonSelectPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_arrow_up.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane1))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                            .addGap(165, 165, 165)
-                            .addComponent(jButton4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton10))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelMainLayout = new javax.swing.GroupLayout(jPanelMain);
+        jPanelMain.setLayout(jPanelMainLayout);
+        jPanelMainLayout.setHorizontalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton9))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
+                        .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelMainLayout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jToggleButtonMute, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSliderVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelMainLayout.createSequentialGroup()
+                                .addComponent(jButtonPrevious)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonPlay)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonPause)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonStop)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonNext)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
+                        .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPanePlaylist)
+                            .addGroup(jPanelMainLayout.createSequentialGroup()
+                                .addComponent(jButtonAdd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSelectNext)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonSelectPrevious)))
+                        .addContainerGap())))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        jPanelMainLayout.setVerticalGroup(
+            jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelMainLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonAdd)
                     .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton10))
+                    .addComponent(jButtonSelectNext)
+                    .addComponent(jButtonSelectPrevious))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPanePlaylist, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jSliderVolume, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelMainLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
+                        .addComponent(jToggleButtonMute, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPrevious)
+                    .addComponent(jButtonPlay)
+                    .addComponent(jButtonPause)
+                    .addComponent(jButtonStop)
+                    .addComponent(jButtonNext))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField1.setText("artist, song");
+        jMenuFile.setText("File");
 
-        jMenu1.setText("File");
+        jMenuItemOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_eject.png"))); // NOI18N
+        jMenuItemOpen.setText("Open");
+        jMenuFile.add(jMenuItemOpen);
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_eject.png"))); // NOI18N
-        jMenuItem1.setText("Open");
-        jMenu1.add(jMenuItem1);
+        jMenuItemSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_save_disk.png"))); // NOI18N
+        jMenuItemSave.setText("Save");
+        jMenuFile.add(jMenuItemSave);
+        jMenuFile.add(jSeparator1);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_save_disk.png"))); // NOI18N
-        jMenuItem5.setText("Save");
-        jMenu1.add(jMenuItem5);
-        jMenu1.add(jSeparator1);
+        jMenuItemClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_power.png"))); // NOI18N
+        jMenuItemClose.setText("Close");
+        jMenuItemClose.addActionListener(formListener);
+        jMenuFile.add(jMenuItemClose);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_power.png"))); // NOI18N
-        jMenuItem4.setText("Close");
-        jMenuItem4.addActionListener(formListener);
-        jMenu1.add(jMenuItem4);
+        jMenuBar.add(jMenuFile);
 
-        jMenuBar1.add(jMenu1);
+        jMenuSettings.setText("Settings");
 
-        jMenu3.setText("Settings");
+        jMenuSkin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_mech_wheel.png"))); // NOI18N
+        jMenuSkin.setText("Skin");
 
-        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_mech_wheel.png"))); // NOI18N
-        jMenu7.setText("Skin");
+        jMenuItemStandart.setText("Standart");
+        jMenuItemStandart.addActionListener(formListener);
+        jMenuSkin.add(jMenuItemStandart);
 
-        jMenuItem8.setText("Standart");
-        jMenuItem8.addActionListener(formListener);
-        jMenu7.add(jMenuItem8);
+        jMenuItemClassic.setText("Classic");
+        jMenuSkin.add(jMenuItemClassic);
 
-        jMenuItem2.setText("Classic");
-        jMenu7.add(jMenuItem2);
+        jMenuSettings.add(jMenuSkin);
 
-        jMenu3.add(jMenu7);
+        jMenuBar.add(jMenuSettings);
 
-        jMenuBar1.add(jMenu3);
-
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(2, 2, 2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(23, Short.MAX_VALUE))))
+                .addComponent(jPanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(1, 1, 1))
+            .addComponent(jPanelSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -275,43 +272,57 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private class FormListener implements java.awt.event.ActionListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            if (evt.getSource() == jButton1) {
-                PlayerJFrame.this.jButton1ActionPerformed(evt);
+            if (evt.getSource() == jButtonSearch) {
+                PlayerJFrame.this.jButtonSearchActionPerformed(evt);
             }
-            else if (evt.getSource() == jMenuItem4) {
-                PlayerJFrame.this.jMenuItem4ActionPerformed(evt);
+            else if (evt.getSource() == jMenuItemClose) {
+                PlayerJFrame.this.jMenuItemCloseActionPerformed(evt);
             }
-            else if (evt.getSource() == jButton6) {
-                PlayerJFrame.this.jButton6ActionPerformed(evt);
+            else if (evt.getSource() == jMenuItemStandart) {
+                PlayerJFrame.this.jMenuItemStandartActionPerformed(evt);
             }
-            else if (evt.getSource() == jButton7) {
-                PlayerJFrame.this.jButton7ActionPerformed(evt);
+            else if (evt.getSource() == jButtonSelectNext) {
+                PlayerJFrame.this.jButtonSelectNextActionPerformed(evt);
             }
-            else if (evt.getSource() == jMenuItem8) {
-                PlayerJFrame.this.jMenuItem8ActionPerformed(evt);
+            else if (evt.getSource() == jButton3) {
+                PlayerJFrame.this.jButton3ActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonPause) {
+                PlayerJFrame.this.jButtonPauseActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonPlay) {
+                PlayerJFrame.this.jButtonPlayActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonSearchActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void jMenuItemStandartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStandartActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jMenuItemStandartActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void jButtonSelectNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectNextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_jButtonSelectNextActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonPauseActionPerformed
+
+    private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonPlayActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -347,44 +358,44 @@ public class PlayerJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonNext;
+    private javax.swing.JButton jButtonPause;
+    private javax.swing.JButton jButtonPlay;
+    private javax.swing.JButton jButtonPrevious;
+    private javax.swing.JButton jButtonSearch;
+    private javax.swing.JButton jButtonSelectNext;
+    private javax.swing.JButton jButtonSelectPrevious;
+    private javax.swing.JButton jButtonStop;
+    private javax.swing.JList<String> jListPlaylist;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JMenuItem jMenuItemClassic;
+    private javax.swing.JMenuItem jMenuItemClose;
+    private javax.swing.JMenuItem jMenuItemOpen;
+    private javax.swing.JMenuItem jMenuItemSave;
+    private javax.swing.JMenuItem jMenuItemStandart;
+    private javax.swing.JMenu jMenuSettings;
+    private javax.swing.JMenu jMenuSkin;
+    private javax.swing.JPanel jPanelMain;
+    private javax.swing.JPanel jPanelSearch;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JPopupMenu jPopupMenu3;
     private javax.swing.JPopupMenu jPopupMenu4;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPanePlaylist;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JSlider jSliderVolume;
+    private javax.swing.JTextField jTextFieldSearch;
+    private javax.swing.JToggleButton jToggleButtonMute;
     // End of variables declaration//GEN-END:variables
 }
