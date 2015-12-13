@@ -1,6 +1,29 @@
 package guiPlayer;
 
+import java.io.File;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import objects.MP3;
+import utils.FileUtils;
+import utils.Mp3FileFilter;
+
 public class PlayerJFrame extends javax.swing.JFrame {
+
+    private static final String MP3_FILE_EXTENSION = "mp3";
+    private static final String MP3_FILE_DESCRIPTION = "mp3 files";
+    private static final String PLAYLIST_EXTENSION = "pls";
+    private static final String PLAYLIST_DESCRIPTION = "playlist files";
+    private static final String EMPTY_STRING = "";
+    private static final String INPUT_SONG_NAME = "input song name ...  ";
+
+    private final DefaultListModel mp3ListModel = new DefaultListModel();
+    private final FileFilter mp3Filter = new Mp3FileFilter(MP3_FILE_EXTENSION, MP3_FILE_DESCRIPTION);
+    private final FileFilter playlistFilter = new Mp3FileFilter(PLAYLIST_EXTENSION, PLAYLIST_DESCRIPTION);
 
     /**
      * Creates new form playerJFrame
@@ -18,18 +41,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jPopupMenu2 = new javax.swing.JPopupMenu();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jPopupMenu3 = new javax.swing.JPopupMenu();
-        jPopupMenu4 = new javax.swing.JPopupMenu();
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
+        jFileChooser = new javax.swing.JFileChooser();
         jPanelSearch = new javax.swing.JPanel();
         jTextFieldSearch = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
@@ -60,22 +72,8 @@ public class PlayerJFrame extends javax.swing.JFrame {
 
         FormListener formListener = new FormListener();
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
-
-        jMenuItem7.setText("jMenuItem7");
-
-        jMenuItem9.setText("jMenuItem9");
-
-        jMenu4.setText("File");
-        jMenuBar2.add(jMenu4);
-
-        jMenu5.setText("Edit");
-        jMenuBar2.add(jMenu5);
-
-        jMenuItem11.setText("jMenuItem11");
-
-        jMenu6.setText("jMenu6");
+        jFileChooser.setAcceptAllFileFilterUsed(false);
+        jFileChooser.setMultiSelectionEnabled(true);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Java MP3 Player");
@@ -111,11 +109,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jListPlaylist.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jListPlaylist.setModel(mp3ListModel);
         jScrollPanePlaylist.setViewportView(jListPlaylist);
 
         jButtonPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_rwnd.png"))); // NOI18N
@@ -135,6 +129,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jToggleButtonMute.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_mute.png"))); // NOI18N
 
         jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_plus.png"))); // NOI18N
+        jButtonAdd.addActionListener(formListener);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_minus.png"))); // NOI18N
         jButton3.addActionListener(formListener);
@@ -275,23 +270,26 @@ public class PlayerJFrame extends javax.swing.JFrame {
             if (evt.getSource() == jButtonSearch) {
                 PlayerJFrame.this.jButtonSearchActionPerformed(evt);
             }
+            else if (evt.getSource() == jButtonPlay) {
+                PlayerJFrame.this.jButtonPlayActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonPause) {
+                PlayerJFrame.this.jButtonPauseActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonAdd) {
+                PlayerJFrame.this.jButtonAddActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButton3) {
+                PlayerJFrame.this.jButton3ActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonSelectNext) {
+                PlayerJFrame.this.jButtonSelectNextActionPerformed(evt);
+            }
             else if (evt.getSource() == jMenuItemClose) {
                 PlayerJFrame.this.jMenuItemCloseActionPerformed(evt);
             }
             else if (evt.getSource() == jMenuItemStandart) {
                 PlayerJFrame.this.jMenuItemStandartActionPerformed(evt);
-            }
-            else if (evt.getSource() == jButtonSelectNext) {
-                PlayerJFrame.this.jButtonSelectNextActionPerformed(evt);
-            }
-            else if (evt.getSource() == jButton3) {
-                PlayerJFrame.this.jButton3ActionPerformed(evt);
-            }
-            else if (evt.getSource() == jButtonPause) {
-                PlayerJFrame.this.jButtonPauseActionPerformed(evt);
-            }
-            else if (evt.getSource() == jButtonPlay) {
-                PlayerJFrame.this.jButtonPlayActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -324,6 +322,24 @@ public class PlayerJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonPlayActionPerformed
 
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+
+        FileUtils.addFileFilter(jFileChooser, mp3Filter);
+        int result = jFileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File[] selectedFiles = jFileChooser.getSelectedFiles();
+            for (File file : selectedFiles) {
+                MP3 mp3 = new MP3(file.getName(), file.getPath());
+                mp3ListModel.addElement(mp3);
+//                if (!mp3ListModel.contains(mp3)) {
+//                    mp3ListModel.addElement(mp3);
+//                }
+
+            }
+        }
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -351,6 +367,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new PlayerJFrame().setVisible(true);
             }
@@ -368,16 +385,10 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSelectNext;
     private javax.swing.JButton jButtonSelectPrevious;
     private javax.swing.JButton jButtonStop;
+    private javax.swing.JFileChooser jFileChooser;
     private javax.swing.JList<String> jListPlaylist;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenu jMenuFile;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemClassic;
     private javax.swing.JMenuItem jMenuItemClose;
     private javax.swing.JMenuItem jMenuItemOpen;
@@ -387,11 +398,6 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuSkin;
     private javax.swing.JPanel jPanelMain;
     private javax.swing.JPanel jPanelSearch;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JPopupMenu jPopupMenu2;
-    private javax.swing.JPopupMenu jPopupMenu3;
-    private javax.swing.JPopupMenu jPopupMenu4;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPanePlaylist;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSlider jSliderVolume;
