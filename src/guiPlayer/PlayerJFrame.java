@@ -21,7 +21,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private static final String EMPTY_STRING = "";
     private static final String INPUT_SONG_NAME = "input song name ...  ";
 
-    private final DefaultListModel mp3ListModel = new DefaultListModel();
+    private DefaultListModel mp3ListModel = new DefaultListModel();
     private final FileFilter mp3Filter = new Mp3FileFilter(MP3_FILE_EXTENSION, MP3_FILE_DESCRIPTION);
     private final FileFilter playlistFilter = new Mp3FileFilter(PLAYLIST_EXTENSION, PLAYLIST_DESCRIPTION);
 
@@ -56,7 +56,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jButtonNext = new javax.swing.JButton();
         jToggleButtonMute = new javax.swing.JToggleButton();
         jButtonAdd = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonRemove = new javax.swing.JButton();
         jButtonSelectNext = new javax.swing.JButton();
         jButtonSelectPrevious = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
@@ -131,13 +131,14 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_plus.png"))); // NOI18N
         jButtonAdd.addActionListener(formListener);
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_minus.png"))); // NOI18N
-        jButton3.addActionListener(formListener);
+        jButtonRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_minus.png"))); // NOI18N
+        jButtonRemove.addActionListener(formListener);
 
         jButtonSelectNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_arrow_down.png"))); // NOI18N
         jButtonSelectNext.addActionListener(formListener);
 
         jButtonSelectPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_arrow_up.png"))); // NOI18N
+        jButtonSelectPrevious.addActionListener(formListener);
 
         javax.swing.GroupLayout jPanelMainLayout = new javax.swing.GroupLayout(jPanelMain);
         jPanelMain.setLayout(jPanelMainLayout);
@@ -170,7 +171,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
                             .addGroup(jPanelMainLayout.createSequentialGroup()
                                 .addComponent(jButtonAdd)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3)
+                                .addComponent(jButtonRemove)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonSelectNext)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -183,7 +184,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonAdd)
-                    .addComponent(jButton3)
+                    .addComponent(jButtonRemove)
                     .addComponent(jButtonSelectNext)
                     .addComponent(jButtonSelectPrevious))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -209,10 +210,12 @@ public class PlayerJFrame extends javax.swing.JFrame {
 
         jMenuItemOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_eject.png"))); // NOI18N
         jMenuItemOpen.setText("Open");
+        jMenuItemOpen.addActionListener(formListener);
         jMenuFile.add(jMenuItemOpen);
 
         jMenuItemSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_save_disk.png"))); // NOI18N
         jMenuItemSave.setText("Save");
+        jMenuItemSave.addActionListener(formListener);
         jMenuFile.add(jMenuItemSave);
         jMenuFile.add(jSeparator1);
 
@@ -279,17 +282,26 @@ public class PlayerJFrame extends javax.swing.JFrame {
             else if (evt.getSource() == jButtonAdd) {
                 PlayerJFrame.this.jButtonAddActionPerformed(evt);
             }
-            else if (evt.getSource() == jButton3) {
-                PlayerJFrame.this.jButton3ActionPerformed(evt);
+            else if (evt.getSource() == jButtonRemove) {
+                PlayerJFrame.this.jButtonRemoveActionPerformed(evt);
             }
             else if (evt.getSource() == jButtonSelectNext) {
                 PlayerJFrame.this.jButtonSelectNextActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonSelectPrevious) {
+                PlayerJFrame.this.jButtonSelectPreviousActionPerformed(evt);
+            }
+            else if (evt.getSource() == jMenuItemSave) {
+                PlayerJFrame.this.jMenuItemSaveActionPerformed(evt);
             }
             else if (evt.getSource() == jMenuItemClose) {
                 PlayerJFrame.this.jMenuItemCloseActionPerformed(evt);
             }
             else if (evt.getSource() == jMenuItemStandart) {
                 PlayerJFrame.this.jMenuItemStandartActionPerformed(evt);
+            }
+            else if (evt.getSource() == jMenuItemOpen) {
+                PlayerJFrame.this.jMenuItemOpenActionPerformed(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -299,7 +311,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
     private void jMenuItemStandartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStandartActionPerformed
@@ -307,19 +319,36 @@ public class PlayerJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemStandartActionPerformed
 
     private void jButtonSelectNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectNextActionPerformed
-        // TODO add your handling code here:
+        int nextIndex = jListPlaylist.getSelectedIndex() + 1;
+        if (nextIndex <= jListPlaylist.getModel().getSize() - 1) {
+            jListPlaylist.setSelectedIndex(nextIndex);
+        }
     }//GEN-LAST:event_jButtonSelectNextActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveActionPerformed
+        int[] indexPlayList = jListPlaylist.getSelectedIndices();
+        if (indexPlayList.length > 0) {
+            ArrayList<MP3> mp3ListForRemove = new ArrayList<MP3>();
+            for (int i = 0; i < indexPlayList.length; i++) {
+                MP3 mp3 = (MP3) mp3ListModel.getElementAt(indexPlayList[i]);
+                mp3ListForRemove.add(mp3);
+            }
+            for (MP3 mp3 : mp3ListForRemove) {
+                mp3ListModel.removeElement(mp3);
+            }
+        }
+    }//GEN-LAST:event_jButtonRemoveActionPerformed
 
     private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonPauseActionPerformed
 
     private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
-        // TODO add your handling code here:
+        int[] indexPlayList = jListPlaylist.getSelectedIndices();
+        if (indexPlayList.length > 0) {
+            MP3 mp3 = (MP3) mp3ListModel.getElementAt(indexPlayList[0]);
+            System.out.println(mp3.getPath());
+        }
     }//GEN-LAST:event_jButtonPlayActionPerformed
 
     private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
@@ -332,14 +361,59 @@ public class PlayerJFrame extends javax.swing.JFrame {
             for (File file : selectedFiles) {
                 MP3 mp3 = new MP3(file.getName(), file.getPath());
                 mp3ListModel.addElement(mp3);
-//                if (!mp3ListModel.contains(mp3)) {
-//                    mp3ListModel.addElement(mp3);
-//                }
-
+                if (!mp3ListModel.contains(mp3)) {
+                    mp3ListModel.addElement(mp3);
+                }
             }
         }
     }//GEN-LAST:event_jButtonAddActionPerformed
 
+    private void jButtonSelectPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectPreviousActionPerformed
+        int prevIndex = jListPlaylist.getSelectedIndex() - 1;
+        if (prevIndex >= 0) {
+            jListPlaylist.setSelectedIndex(prevIndex);
+        }
+    }//GEN-LAST:event_jButtonSelectPreviousActionPerformed
+
+    private void jMenuItemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSaveActionPerformed
+        FileUtils.addFileFilter(jFileChooser, playlistFilter);
+        int result = jFileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jFileChooser.getSelectedFile();
+            if (selectedFile.exists()) {
+
+                int resultOvveride = JOptionPane.showConfirmDialog(this, "File exists", "Overwrite?", JOptionPane.YES_NO_CANCEL_OPTION);
+                switch (resultOvveride) {
+                    case JOptionPane.NO_OPTION:
+                        jMenuItemSaveActionPerformed(evt);
+                        return;
+                    case JOptionPane.CANCEL_OPTION:
+                        jFileChooser.cancelSelection();
+                        return;
+                }
+                jFileChooser.approveSelection();
+            }
+            String fileExtension = FileUtils.getFileExtension(selectedFile);
+            String fileNameForSave = (fileExtension != null && fileExtension.equals(PLAYLIST_EXTENSION)) ? selectedFile.getPath() : selectedFile.getPath() + "." + PLAYLIST_EXTENSION;
+            FileUtils.serialize(mp3ListModel, fileNameForSave);
+        }
+
+
+    }//GEN-LAST:event_jMenuItemSaveActionPerformed
+
+    private void jMenuItemOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenActionPerformed
+        FileUtils.addFileFilter(jFileChooser, playlistFilter);
+        int result = jFileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = jFileChooser.getSelectedFile();
+            DefaultListModel mp3ListModel = (DefaultListModel) FileUtils.deserialize(selectedFile.getPath());
+            this.mp3ListModel = mp3ListModel;
+            jListPlaylist.setModel(mp3ListModel);
+        }
+
+
+    }//GEN-LAST:event_jMenuItemOpenActionPerformed
+    /* <<<< MAIN >>>> */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -351,36 +425,41 @@ public class PlayerJFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PlayerJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PlayerJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PlayerJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PlayerJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PlayerJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PlayerJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PlayerJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PlayerJFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new PlayerJFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new PlayerJFrame().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonAdd;
     private javax.swing.JButton jButtonNext;
     private javax.swing.JButton jButtonPause;
     private javax.swing.JButton jButtonPlay;
     private javax.swing.JButton jButtonPrevious;
+    private javax.swing.JButton jButtonRemove;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JButton jButtonSelectNext;
     private javax.swing.JButton jButtonSelectPrevious;

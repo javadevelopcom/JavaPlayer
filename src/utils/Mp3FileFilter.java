@@ -5,8 +5,8 @@ import javax.swing.filechooser.FileFilter;
 
 public class Mp3FileFilter extends FileFilter {
 
-    private String fileExtension;
-    private String fileDescription;
+    private final String fileExtension;
+    private final String fileDescription;
 
     public Mp3FileFilter(String fileExtension, String fileDescription) {
         this.fileExtension = fileExtension;
