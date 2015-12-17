@@ -10,6 +10,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import objects.MP3;
 import utils.FileUtils;
+import utils.SkinUtils;
 import utils.Mp3FileFilter;
 
 public class PlayerJFrame extends javax.swing.JFrame {
@@ -19,7 +20,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private static final String PLAYLIST_EXTENSION = "pls";
     private static final String PLAYLIST_DESCRIPTION = "playlist files";
     private static final String EMPTY_STRING = "";
-    private static final String INPUT_SONG_NAME = "input song name ...  ";
+    private static final String INPUT_SONG_NAME = "";
 
     private DefaultListModel mp3ListModel = new DefaultListModel();
     private final FileFilter mp3Filter = new Mp3FileFilter(MP3_FILE_EXTENSION, MP3_FILE_DESCRIPTION);
@@ -67,8 +68,8 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jMenuItemClose = new javax.swing.JMenuItem();
         jMenuSettings = new javax.swing.JMenu();
         jMenuSkin = new javax.swing.JMenu();
-        jMenuItemStandart = new javax.swing.JMenuItem();
         jMenuItemClassic = new javax.swing.JMenuItem();
+        jMenuItemNimbus = new javax.swing.JMenuItem();
 
         FormListener formListener = new FormListener();
 
@@ -82,10 +83,13 @@ public class PlayerJFrame extends javax.swing.JFrame {
         setResizable(false);
 
         jTextFieldSearch.setForeground(new java.awt.Color(204, 204, 204));
-        jTextFieldSearch.setText("artist, song");
+        jTextFieldSearch.addFocusListener(formListener);
+        jTextFieldSearch.addActionListener(formListener);
 
         jButtonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_search_flies.png"))); // NOI18N
         jButtonSearch.setText("Search");
+        jButtonSearch.setToolTipText("Find Music By Keyword");
+        jButtonSearch.setName(""); // NOI18N
         jButtonSearch.addActionListener(formListener);
 
         javax.swing.GroupLayout jPanelSearchLayout = new javax.swing.GroupLayout(jPanelSearch);
@@ -231,12 +235,13 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jMenuSkin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_mech_wheel.png"))); // NOI18N
         jMenuSkin.setText("Skin");
 
-        jMenuItemStandart.setText("Standart");
-        jMenuItemStandart.addActionListener(formListener);
-        jMenuSkin.add(jMenuItemStandart);
-
         jMenuItemClassic.setText("Classic");
+        jMenuItemClassic.addActionListener(formListener);
         jMenuSkin.add(jMenuItemClassic);
+
+        jMenuItemNimbus.setText("Nimbus");
+        jMenuItemNimbus.addActionListener(formListener);
+        jMenuSkin.add(jMenuItemNimbus);
 
         jMenuSettings.add(jMenuSkin);
 
@@ -267,7 +272,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.FocusListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == jButtonSearch) {
@@ -297,26 +302,79 @@ public class PlayerJFrame extends javax.swing.JFrame {
             else if (evt.getSource() == jMenuItemClose) {
                 PlayerJFrame.this.jMenuItemCloseActionPerformed(evt);
             }
-            else if (evt.getSource() == jMenuItemStandart) {
-                PlayerJFrame.this.jMenuItemStandartActionPerformed(evt);
+            else if (evt.getSource() == jMenuItemClassic) {
+                PlayerJFrame.this.jMenuItemClassicActionPerformed(evt);
             }
             else if (evt.getSource() == jMenuItemOpen) {
                 PlayerJFrame.this.jMenuItemOpenActionPerformed(evt);
+            }
+            else if (evt.getSource() == jMenuItemNimbus) {
+                PlayerJFrame.this.jMenuItemNimbusActionPerformed(evt);
+            }
+            else if (evt.getSource() == jTextFieldSearch) {
+                PlayerJFrame.this.jTextFieldSearchActionPerformed(evt);
+            }
+        }
+
+        public void focusGained(java.awt.event.FocusEvent evt) {
+            if (evt.getSource() == jTextFieldSearch) {
+                PlayerJFrame.this.jTextFieldSearchFocusGained(evt);
+            }
+        }
+
+        public void focusLost(java.awt.event.FocusEvent evt) {
+            if (evt.getSource() == jTextFieldSearch) {
+                PlayerJFrame.this.jTextFieldSearchFocusLost(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonSearchActionPerformed
+        String searchStr = jTextFieldSearch.getText();
 
+        if (searchStr == null || searchStr.trim().equals(EMPTY_STRING)) {
+            return;
+        }
+        ArrayList<Integer> mp3FindedIndexes = new ArrayList<>();
+        for (int i = 0; i < mp3ListModel.size(); i++) {
+            MP3 mp3 = (MP3) mp3ListModel.getElementAt(i);
+            if (mp3.getName().toUpperCase().contains(searchStr.toUpperCase())) {
+                mp3FindedIndexes.add(i);
+            }
+        }
+        int[] selectedIndexes = new int[mp3FindedIndexes.size()];
+        if (selectedIndexes.length == 0) {
+            JOptionPane.showMessageDialog(this, "Search by keyword:  \'" + searchStr + "\'  has no result");
+            jTextFieldSearch.requestFocus();
+            jTextFieldSearch.selectAll();
+            return;
+        }
+        for (int i = 0; i < selectedIndexes.length; i++) {
+            selectedIndexes[i] = mp3FindedIndexes.get(i);
+        }
+        jListPlaylist.setSelectedIndices(selectedIndexes);
+
+
+    }//GEN-LAST:event_jButtonSearchActionPerformed
+    private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {
+        if (jTextFieldSearch.getText().equals(INPUT_SONG_NAME)) {
+            jTextFieldSearch.setText(EMPTY_STRING);
+        }
+    }
+
+    private void txtSearchFocusLost(java.awt.event.FocusEvent evt) {
+        if (jTextFieldSearch.getText().trim().equals(EMPTY_STRING)) {
+            jTextFieldSearch.setText(INPUT_SONG_NAME);
+        }
+    }
     private void jMenuItemCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCloseActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
-    private void jMenuItemStandartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemStandartActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItemStandartActionPerformed
+    private void jMenuItemClassicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemClassicActionPerformed
+        SkinUtils.changeSkin(this, UIManager.getSystemLookAndFeelClassName());
+        jFileChooser.updateUI();
+    }//GEN-LAST:event_jMenuItemClassicActionPerformed
 
     private void jButtonSelectNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSelectNextActionPerformed
         int nextIndex = jListPlaylist.getSelectedIndex() + 1;
@@ -328,14 +386,14 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private void jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveActionPerformed
         int[] indexPlayList = jListPlaylist.getSelectedIndices();
         if (indexPlayList.length > 0) {
-            ArrayList<MP3> mp3ListForRemove = new ArrayList<MP3>();
+            ArrayList<MP3> mp3ListForRemove = new ArrayList<>();
             for (int i = 0; i < indexPlayList.length; i++) {
                 MP3 mp3 = (MP3) mp3ListModel.getElementAt(indexPlayList[i]);
                 mp3ListForRemove.add(mp3);
             }
-            for (MP3 mp3 : mp3ListForRemove) {
+            mp3ListForRemove.stream().forEach((mp3) -> {
                 mp3ListModel.removeElement(mp3);
-            }
+            });
         }
     }//GEN-LAST:event_jButtonRemoveActionPerformed
 
@@ -360,7 +418,6 @@ public class PlayerJFrame extends javax.swing.JFrame {
             File[] selectedFiles = jFileChooser.getSelectedFiles();
             for (File file : selectedFiles) {
                 MP3 mp3 = new MP3(file.getName(), file.getPath());
-                mp3ListModel.addElement(mp3);
                 if (!mp3ListModel.contains(mp3)) {
                     mp3ListModel.addElement(mp3);
                 }
@@ -413,6 +470,29 @@ public class PlayerJFrame extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jMenuItemOpenActionPerformed
+
+    private void jMenuItemNimbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNimbusActionPerformed
+        SkinUtils.changeSkin(this, new NimbusLookAndFeel());
+        jFileChooser.updateUI();
+
+    }//GEN-LAST:event_jMenuItemNimbusActionPerformed
+
+    private void jTextFieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSearchActionPerformed
+
+    private void jTextFieldSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldSearchFocusGained
+        if (jTextFieldSearch.getText().equals(INPUT_SONG_NAME)) {
+            jTextFieldSearch.setText(EMPTY_STRING);
+        }
+    }//GEN-LAST:event_jTextFieldSearchFocusGained
+
+    private void jTextFieldSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextFieldSearchFocusLost
+        if (jTextFieldSearch.getText().trim().equals(EMPTY_STRING)) {
+            jTextFieldSearch.setText(INPUT_SONG_NAME);
+        }
+    }//GEN-LAST:event_jTextFieldSearchFocusLost
+
     /* <<<< MAIN >>>> */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -470,9 +550,9 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenuItem jMenuItemClassic;
     private javax.swing.JMenuItem jMenuItemClose;
+    private javax.swing.JMenuItem jMenuItemNimbus;
     private javax.swing.JMenuItem jMenuItemOpen;
     private javax.swing.JMenuItem jMenuItemSave;
-    private javax.swing.JMenuItem jMenuItemStandart;
     private javax.swing.JMenu jMenuSettings;
     private javax.swing.JMenu jMenuSkin;
     private javax.swing.JPanel jPanelMain;
