@@ -1,14 +1,19 @@
 package guiPlayer;
 
+import java.awt.event.InputEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import objects.MP3;
+import objects.MP3Player;
 import utils.FileUtils;
 import utils.SkinUtils;
 import utils.Mp3FileFilter;
@@ -23,8 +28,10 @@ public class PlayerJFrame extends javax.swing.JFrame {
     private static final String INPUT_SONG_NAME = "";
 
     private DefaultListModel mp3ListModel = new DefaultListModel();
-    private final FileFilter mp3Filter = new Mp3FileFilter(MP3_FILE_EXTENSION, MP3_FILE_DESCRIPTION);
-    private final FileFilter playlistFilter = new Mp3FileFilter(PLAYLIST_EXTENSION, PLAYLIST_DESCRIPTION);
+    private FileFilter mp3Filter = new Mp3FileFilter(MP3_FILE_EXTENSION, MP3_FILE_DESCRIPTION);
+    private FileFilter playlistFilter = new Mp3FileFilter(PLAYLIST_EXTENSION, PLAYLIST_DESCRIPTION);
+    private MP3Player player = new MP3Player();
+    private int currentVolumeValue;
 
     /**
      * Creates new form playerJFrame
@@ -114,7 +121,16 @@ public class PlayerJFrame extends javax.swing.JFrame {
         );
 
         jListPlaylist.setModel(mp3ListModel);
+        jListPlaylist.addMouseListener(formListener);
         jScrollPanePlaylist.setViewportView(jListPlaylist);
+
+        jSliderVolume.setMaximum(200);
+        jSliderVolume.setMinorTickSpacing(5);
+        jSliderVolume.setSnapToTicks(true);
+        jSliderVolume.setToolTipText("Volume");
+        jSliderVolume.setValue(100);
+        jSliderVolume.addChangeListener(formListener);
+        jSliderVolume.addMouseWheelListener(formListener);
 
         jButtonPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_rwnd.png"))); // NOI18N
 
@@ -131,6 +147,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jToggleButtonMute.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_loud.png"))); // NOI18N
         jToggleButtonMute.setToolTipText("");
         jToggleButtonMute.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_mute.png"))); // NOI18N
+        jToggleButtonMute.addActionListener(formListener);
 
         jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_plus.png"))); // NOI18N
         jButtonAdd.addActionListener(formListener);
@@ -272,10 +289,13 @@ public class PlayerJFrame extends javax.swing.JFrame {
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.FocusListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.FocusListener, java.awt.event.MouseListener, java.awt.event.MouseWheelListener, javax.swing.event.ChangeListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
-            if (evt.getSource() == jButtonSearch) {
+            if (evt.getSource() == jTextFieldSearch) {
+                PlayerJFrame.this.jTextFieldSearchActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonSearch) {
                 PlayerJFrame.this.jButtonSearchActionPerformed(evt);
             }
             else if (evt.getSource() == jButtonPlay) {
@@ -283,6 +303,9 @@ public class PlayerJFrame extends javax.swing.JFrame {
             }
             else if (evt.getSource() == jButtonPause) {
                 PlayerJFrame.this.jButtonPauseActionPerformed(evt);
+            }
+            else if (evt.getSource() == jToggleButtonMute) {
+                PlayerJFrame.this.jToggleButtonMuteActionPerformed(evt);
             }
             else if (evt.getSource() == jButtonAdd) {
                 PlayerJFrame.this.jButtonAddActionPerformed(evt);
@@ -296,6 +319,9 @@ public class PlayerJFrame extends javax.swing.JFrame {
             else if (evt.getSource() == jButtonSelectPrevious) {
                 PlayerJFrame.this.jButtonSelectPreviousActionPerformed(evt);
             }
+            else if (evt.getSource() == jMenuItemOpen) {
+                PlayerJFrame.this.jMenuItemOpenActionPerformed(evt);
+            }
             else if (evt.getSource() == jMenuItemSave) {
                 PlayerJFrame.this.jMenuItemSaveActionPerformed(evt);
             }
@@ -305,14 +331,8 @@ public class PlayerJFrame extends javax.swing.JFrame {
             else if (evt.getSource() == jMenuItemClassic) {
                 PlayerJFrame.this.jMenuItemClassicActionPerformed(evt);
             }
-            else if (evt.getSource() == jMenuItemOpen) {
-                PlayerJFrame.this.jMenuItemOpenActionPerformed(evt);
-            }
             else if (evt.getSource() == jMenuItemNimbus) {
                 PlayerJFrame.this.jMenuItemNimbusActionPerformed(evt);
-            }
-            else if (evt.getSource() == jTextFieldSearch) {
-                PlayerJFrame.this.jTextFieldSearchActionPerformed(evt);
             }
         }
 
@@ -325,6 +345,36 @@ public class PlayerJFrame extends javax.swing.JFrame {
         public void focusLost(java.awt.event.FocusEvent evt) {
             if (evt.getSource() == jTextFieldSearch) {
                 PlayerJFrame.this.jTextFieldSearchFocusLost(evt);
+            }
+        }
+
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            if (evt.getSource() == jListPlaylist) {
+                PlayerJFrame.this.jListPlaylistMouseClicked(evt);
+            }
+        }
+
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mousePressed(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseReleased(java.awt.event.MouseEvent evt) {
+        }
+
+        public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+            if (evt.getSource() == jSliderVolume) {
+                PlayerJFrame.this.jSliderVolumeMouseWheelMoved(evt);
+            }
+        }
+
+        public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            if (evt.getSource() == jSliderVolume) {
+                PlayerJFrame.this.jSliderVolumeStateChanged(evt);
             }
         }
     }// </editor-fold>//GEN-END:initComponents
@@ -402,10 +452,15 @@ public class PlayerJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPauseActionPerformed
 
     private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
-        int[] indexPlayList = jListPlaylist.getSelectedIndices();
-        if (indexPlayList.length > 0) {
-            MP3 mp3 = (MP3) mp3ListModel.getElementAt(indexPlayList[0]);
-            System.out.println(mp3.getPath());
+        int[] indexPlaylist = jListPlaylist.getSelectedIndices();
+        if (indexPlaylist.length > 0) {
+            MP3 mp3 = (MP3) mp3ListModel.getElementAt(indexPlaylist[0]);
+            player.play(mp3.getPath());
+            player.setVolume(jSliderVolume.getValue(), jSliderVolume.getMaximum());
+            System.out.println(" Now playing: " + mp3.getPath());
+        } else {
+            System.out.print(" Nothing to play, please select the song ");
+            JOptionPane.showMessageDialog(this, "Nothing to play, please select the song");
         }
     }//GEN-LAST:event_jButtonPlayActionPerformed
 
@@ -454,8 +509,6 @@ public class PlayerJFrame extends javax.swing.JFrame {
             String fileNameForSave = (fileExtension != null && fileExtension.equals(PLAYLIST_EXTENSION)) ? selectedFile.getPath() : selectedFile.getPath() + "." + PLAYLIST_EXTENSION;
             FileUtils.serialize(mp3ListModel, fileNameForSave);
         }
-
-
     }//GEN-LAST:event_jMenuItemSaveActionPerformed
 
     private void jMenuItemOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenActionPerformed
@@ -467,8 +520,6 @@ public class PlayerJFrame extends javax.swing.JFrame {
             this.mp3ListModel = mp3ListModel;
             jListPlaylist.setModel(mp3ListModel);
         }
-
-
     }//GEN-LAST:event_jMenuItemOpenActionPerformed
 
     private void jMenuItemNimbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNimbusActionPerformed
@@ -492,6 +543,39 @@ public class PlayerJFrame extends javax.swing.JFrame {
             jTextFieldSearch.setText(INPUT_SONG_NAME);
         }
     }//GEN-LAST:event_jTextFieldSearchFocusLost
+
+    private void jToggleButtonMuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonMuteActionPerformed
+        if (jToggleButtonMute.isSelected()) {
+            currentVolumeValue = jSliderVolume.getValue();
+            jSliderVolume.setValue(0);
+        } else {
+            jSliderVolume.setValue(currentVolumeValue);
+        }
+    }//GEN-LAST:event_jToggleButtonMuteActionPerformed
+
+    private void jListPlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListPlaylistMouseClicked
+        if (evt.getModifiers() == InputEvent.BUTTON1_MASK && evt.getClickCount() == 2) {
+            int[] indexPlaylist = jListPlaylist.getSelectedIndices();
+            if (indexPlaylist.length > 0) {
+                MP3 mp3 = (MP3) mp3ListModel.getElementAt(indexPlaylist[0]);
+                player.play(mp3.getPath());
+                player.setVolume(jSliderVolume.getValue(), jSliderVolume.getMaximum());
+            }
+        }
+    }//GEN-LAST:event_jListPlaylistMouseClicked
+
+    private void jSliderVolumeMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jSliderVolumeMouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSliderVolumeMouseWheelMoved
+
+    private void jSliderVolumeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSliderVolumeStateChanged
+        player.setVolume(jSliderVolume.getValue(), jSliderVolume.getMaximum());
+        if (jSliderVolume.getValue() == 0) {
+            jToggleButtonMute.setSelected(true);
+        } else {
+            jToggleButtonMute.setSelected(false);
+        }
+    }//GEN-LAST:event_jSliderVolumeStateChanged
 
     /* <<<< MAIN >>>> */
     public static void main(String args[]) {
