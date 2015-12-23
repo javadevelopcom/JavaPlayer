@@ -133,6 +133,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jSliderVolume.addMouseWheelListener(formListener);
 
         jButtonPrevious.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_rwnd.png"))); // NOI18N
+        jButtonPrevious.addActionListener(formListener);
 
         jButtonPlay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_play.png"))); // NOI18N
         jButtonPlay.addActionListener(formListener);
@@ -141,8 +142,10 @@ public class PlayerJFrame extends javax.swing.JFrame {
         jButtonPause.addActionListener(formListener);
 
         jButtonStop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_stop.png"))); // NOI18N
+        jButtonStop.addActionListener(formListener);
 
         jButtonNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_fwrd.png"))); // NOI18N
+        jButtonNext.addActionListener(formListener);
 
         jToggleButtonMute.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_sound_loud.png"))); // NOI18N
         jToggleButtonMute.setToolTipText("");
@@ -334,6 +337,15 @@ public class PlayerJFrame extends javax.swing.JFrame {
             else if (evt.getSource() == jMenuItemNimbus) {
                 PlayerJFrame.this.jMenuItemNimbusActionPerformed(evt);
             }
+            else if (evt.getSource() == jButtonStop) {
+                PlayerJFrame.this.jButtonStopActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonPrevious) {
+                PlayerJFrame.this.jButtonPreviousActionPerformed(evt);
+            }
+            else if (evt.getSource() == jButtonNext) {
+                PlayerJFrame.this.jButtonNextActionPerformed(evt);
+            }
         }
 
         public void focusGained(java.awt.event.FocusEvent evt) {
@@ -448,7 +460,7 @@ public class PlayerJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRemoveActionPerformed
 
     private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
-        // TODO add your handling code here:
+        player.pause();
     }//GEN-LAST:event_jButtonPauseActionPerformed
 
     private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
@@ -576,6 +588,20 @@ public class PlayerJFrame extends javax.swing.JFrame {
             jToggleButtonMute.setSelected(false);
         }
     }//GEN-LAST:event_jSliderVolumeStateChanged
+
+    private void jButtonStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStopActionPerformed
+        player.stop();
+    }//GEN-LAST:event_jButtonStopActionPerformed
+
+    private void jButtonPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPreviousActionPerformed
+        jButtonSelectPreviousActionPerformed(evt);
+        jButtonPlayActionPerformed(evt);
+    }//GEN-LAST:event_jButtonPreviousActionPerformed
+
+    private void jButtonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextActionPerformed
+        jButtonSelectNextActionPerformed(evt);
+        jButtonPlayActionPerformed(evt);
+    }//GEN-LAST:event_jButtonNextActionPerformed
 
     /* <<<< MAIN >>>> */
     public static void main(String args[]) {
