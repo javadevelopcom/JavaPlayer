@@ -1,6 +1,7 @@
 package guiPlayer;
 
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
@@ -108,6 +109,7 @@ public class PlayerJFrame extends javax.swing.JFrame implements BasicPlayerListe
         jTextFieldSearch.setForeground(new java.awt.Color(204, 204, 204));
         jTextFieldSearch.addFocusListener(formListener);
         jTextFieldSearch.addActionListener(formListener);
+        jTextFieldSearch.addKeyListener(formListener);
 
         jButtonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ic_search_flies.png"))); // NOI18N
         jButtonSearch.setText("Search");
@@ -138,6 +140,7 @@ public class PlayerJFrame extends javax.swing.JFrame implements BasicPlayerListe
 
         jListPlaylist.setModel(mp3ListModel);
         jListPlaylist.addMouseListener(formListener);
+        jListPlaylist.addKeyListener(formListener);
         jScrollPanePlaylist.setViewportView(jListPlaylist);
 
         jSliderVolume.setMaximum(200);
@@ -332,7 +335,7 @@ public class PlayerJFrame extends javax.swing.JFrame implements BasicPlayerListe
 
     // Code for dispatching events from components to event handlers.
 
-    private class FormListener implements java.awt.event.ActionListener, java.awt.event.FocusListener, java.awt.event.MouseListener, java.awt.event.MouseWheelListener, javax.swing.event.ChangeListener {
+    private class FormListener implements java.awt.event.ActionListener, java.awt.event.FocusListener, java.awt.event.KeyListener, java.awt.event.MouseListener, java.awt.event.MouseWheelListener, javax.swing.event.ChangeListener {
         FormListener() {}
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             if (evt.getSource() == jTextFieldSearch) {
@@ -400,6 +403,21 @@ public class PlayerJFrame extends javax.swing.JFrame implements BasicPlayerListe
             }
         }
 
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            if (evt.getSource() == jListPlaylist) {
+                PlayerJFrame.this.jListPlaylistKeyPressed(evt);
+            }
+            else if (evt.getSource() == jTextFieldSearch) {
+                PlayerJFrame.this.jTextFieldSearchKeyPressed(evt);
+            }
+        }
+
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+        }
+
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+        }
+
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             if (evt.getSource() == jListPlaylist) {
                 PlayerJFrame.this.jListPlaylistMouseClicked(evt);
@@ -435,31 +453,7 @@ public class PlayerJFrame extends javax.swing.JFrame implements BasicPlayerListe
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
-        String searchStr = jTextFieldSearch.getText();
-
-        if (searchStr == null || searchStr.trim().equals(EMPTY_STRING)) {
-            return;
-        }
-        ArrayList<Integer> mp3FindedIndexes = new ArrayList<>();
-        for (int i = 0; i < mp3ListModel.size(); i++) {
-            MP3 mp3 = (MP3) mp3ListModel.getElementAt(i);
-            if (mp3.getName().toUpperCase().contains(searchStr.toUpperCase())) {
-                mp3FindedIndexes.add(i);
-            }
-        }
-        int[] selectedIndexes = new int[mp3FindedIndexes.size()];
-        if (selectedIndexes.length == 0) {
-            JOptionPane.showMessageDialog(this, "Search by keyword:  \'" + searchStr + "\'  has no result");
-            jTextFieldSearch.requestFocus();
-            jTextFieldSearch.selectAll();
-            return;
-        }
-        for (int i = 0; i < selectedIndexes.length; i++) {
-            selectedIndexes[i] = mp3FindedIndexes.get(i);
-        }
-        jListPlaylist.setSelectedIndices(selectedIndexes);
-
-
+        searchSong();
     }//GEN-LAST:event_jButtonSearchActionPerformed
     private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {
         if (jTextFieldSearch.getText().equals(INPUT_SONG_NAME)) {
@@ -653,6 +647,20 @@ public class PlayerJFrame extends javax.swing.JFrame implements BasicPlayerListe
         }
     }//GEN-LAST:event_jSliderTrackStateChanged
 
+    private void jListPlaylistKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jListPlaylistKeyPressed
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER) {
+            playFile();
+        }
+    }//GEN-LAST:event_jListPlaylistKeyPressed
+
+    private void jTextFieldSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchKeyPressed
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER) {
+            searchSong();
+        }
+    }//GEN-LAST:event_jTextFieldSearchKeyPressed
+
     /* <<<< MAIN >>>> */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -817,5 +825,30 @@ public class PlayerJFrame extends javax.swing.JFrame implements BasicPlayerListe
             e.printStackTrace();
             movingFromJump = false;
         }
+    }
+
+    private void searchSong() {
+        String searchStr = jTextFieldSearch.getText();
+        if (searchStr == null || searchStr.trim().equals(EMPTY_STRING)) {
+            return;
+        }
+        ArrayList<Integer> mp3FindedIndexes = new ArrayList<>();
+        for (int i = 0; i < mp3ListModel.size(); i++) {
+            MP3 mp3 = (MP3) mp3ListModel.getElementAt(i);
+            if (mp3.getName().toUpperCase().contains(searchStr.toUpperCase())) {
+                mp3FindedIndexes.add(i);
+            }
+        }
+        int[] selectedIndexes = new int[mp3FindedIndexes.size()];
+        if (selectedIndexes.length == 0) {
+            JOptionPane.showMessageDialog(this, "Search by keyword:  \'" + searchStr + "\'  has no result");
+            jTextFieldSearch.requestFocus();
+            jTextFieldSearch.selectAll();
+            return;
+        }
+        for (int i = 0; i < selectedIndexes.length; i++) {
+            selectedIndexes[i] = mp3FindedIndexes.get(i);
+        }
+        jListPlaylist.setSelectedIndices(selectedIndexes);
     }
 }
